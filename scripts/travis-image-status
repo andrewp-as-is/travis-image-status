@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+{ set +x; } 2>/dev/null
+
+usage() {
+    echo "usage: $(basename $0) [options] repo" 1>&2
+    [[ $1 == "-h" ]] || [[ $1 == "--help" ]]; exit
+}
+
+[[ $1 == "-h" ]] || [[ $1 == "--help" ]] && usage "$@"
+
+zone="org"
+[[ $1 == "--pro" ]] && zone="com" && shift
+[[ $1 == "--com" ]] && zone="com" && shift
+[[ $1 == "--org" ]] && zone="org" && shift
+
+url="https://api.travis-ci.$zone/$1.svg?branch=master"
+out="$(curl -fs "$url")" || exit
+# status</text></g></svg>
+IFS='>';set -- $out; set -- "${@:1:$(($#-2))}";
+# status</text>
+IFS='<';set ${@: -1}; echo $1
