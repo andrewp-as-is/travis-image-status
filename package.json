@@ -1,6 +1,6 @@
 {
   "name": "travis-image-status",
-  "version": "2019.4.14",
+  "version": "2020.12.3",
   "description": "quickly get travis status from an image. better than a travis client",
   "keywords": [
     "travis",
